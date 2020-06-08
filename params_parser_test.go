@@ -34,7 +34,7 @@ func TestParseQuery(t * testing.T) {
   if orderByParam.Order != "asc" {
     t.Error("id param order should be 'asc'")
   }
-  if orderByParam.LastValue.(float64) != 5 {
-    t.Errorf("Last id should be 5, got %v", orderByParam.LastValue)
+  if orderByParam.LastValue != "5" {
+    t.Errorf("Last id should be 5, got %s", orderByParam.LastValue)
   }
 }

@@ -34,8 +34,6 @@ func PaginationQueryMods(params PaginatorParams) []qm.QueryMod {
 
       mods = append(mods, mod)
     }
-
-
   }
 
   if orderByQuery != "" {

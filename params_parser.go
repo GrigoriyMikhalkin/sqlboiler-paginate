@@ -1,6 +1,7 @@
 package paginate
 
 import (
+  "fmt"
   "encoding/json"
   "net/url"
   "strings"
@@ -110,7 +111,7 @@ func DefaultOrderByParse(queryParams QueryParams, orderByParam, prevPageValuePar
 
     orderByParams[field] = &OrderByParam{
       Order: order,
-      LastValue: prevPageValues[field],
+      LastValue: fmt.Sprintf("%v", prevPageValues[field]),
     }
   }
 

@@ -2,7 +2,7 @@ package paginate
 
 type OrderByParam struct {
   Order string
-  LastValue interface{}
+  LastValue string
 }
 
 type OrderByParams = map[string]*OrderByParam
