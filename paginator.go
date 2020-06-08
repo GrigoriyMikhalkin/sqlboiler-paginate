@@ -1,38 +1,41 @@
 package paginate
 
 import (
-  "strings"
-
   "github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
-type Paginator struct {}
-
-func (p *Paginator) PaginationQueryMods(params *PaginatorParams) []qm.QueryMod {
+func PaginationQueryMods(params PaginatorParams) []qm.QueryMod {
   var mods []qm.QueryMod
 
   orderByQuery := ""
-  for param, val := range params.OrderBy {
-    if val != "" {
-      parts := strings.Split(param, " ")
-      sign := ">"
-      if len(parts) > 1 {
-        if parts[1] == "desc" {
-          sign = "<"
-        }
+  for field, param := range params.OrderBy {
+    // update order_by
+    if orderByQuery != "" {
+      orderByQuery += ", "
+    }
+    orderByQuery += field + " " + param.Order
+
+    // update where filter
+    var sign string
+    var mod qm.QueryMod
+    if param.LastValue != "" {
+      switch param.Order {
+      case "asc":
+        sign = ">"
+      case "desc":
+        sign = "<"
       }
 
       if len(mods) > 0 {
-        mods = append(mods, qm.And(parts[0] + sign + "?", val))
+        mod = qm.And(field + sign + "?", param.LastValue)
       } else {
-        mods = append(mods, qm.Where(parts[0] + sign + "?", val))
+        mod = qm.Where(field + sign + "?", param.LastValue)
       }
+
+      mods = append(mods, mod)
     }
 
-    if orderByQuery != "" {
-      orderByQuery +=", "
-    }
-    orderByQuery += param
+
   }
 
   if orderByQuery != "" {
