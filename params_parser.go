@@ -10,6 +10,7 @@ import (
 
 const (
   defaultLimitParam = "limit"
+  defaultOffsetParam = "offset"
   defaultOrderByParam = "order_by"
   defaultPrevPageValuesParam = "prev_page_values"
 )
@@ -31,7 +32,7 @@ type defaultPaginatorParamsParser struct {
   OrderByParse OrderByParseFunc
 }
 
-func NewPaginatorParamsParser(limitParam, orderByParam, prevPageValuesParam string, orderByParse OrderByParseFunc) *defaultPaginatorParamsParser {
+func NewPaginatorParamsParser(limitParam, offsetParam, orderByParam, prevPageValuesParam string, orderByParse OrderByParseFunc) *defaultPaginatorParamsParser {
   parseFunc := DefaultOrderByParse
   if orderByParse != nil {
     parseFunc = orderByParse
@@ -39,6 +40,7 @@ func NewPaginatorParamsParser(limitParam, orderByParam, prevPageValuesParam stri
 
   return &defaultPaginatorParamsParser{
     LimitParam: limitParam,
+    OffsetParam: offsetParam,
     OrderByParam: orderByParam,
     PrevPageValuesParam: prevPageValuesParam,
     OrderByParse: parseFunc,
@@ -48,6 +50,7 @@ func NewPaginatorParamsParser(limitParam, orderByParam, prevPageValuesParam stri
 func NewDefaultPaginatorParamsParser() *defaultPaginatorParamsParser {
   return &defaultPaginatorParamsParser{
     LimitParam: defaultLimitParam,
+    OffsetParam: defaultOffsetParam,
     OrderByParam: defaultOrderByParam,
     PrevPageValuesParam: defaultPrevPageValuesParam,
     OrderByParse: DefaultOrderByParse,
@@ -73,14 +76,27 @@ func (p *defaultPaginatorParamsParser) ParseQuery(query string) (params Paginato
     }
   }
 
+  // parsing offset
+  offset := -1
+  if len(values[p.OffsetParam]) > 0 {
+    offset, err = strconv.Atoi(values[p.OffsetParam][0])
+    if err != nil {
+      return
+    }
+  }
+
   // parsing order by params
-  orderBy, err := p.OrderByParse(values, p.OrderByParam, p.PrevPageValuesParam)
-  if err != nil {
-    return
+  var orderBy OrderByParams
+  if offset < 1 {
+    orderBy, err = p.OrderByParse(values, p.OrderByParam, p.PrevPageValuesParam)
+    if err != nil {
+      return
+    }
   }
 
   return PaginatorParams{
     Limit: limit,
+    Offset: offset,
     OrderBy: orderBy,
   }, nil
 }
