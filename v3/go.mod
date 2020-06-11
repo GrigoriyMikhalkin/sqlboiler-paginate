@@ -1,4 +1,4 @@
-module github.com/grigoriymikhalkin/sqlboiler-paginate
+module github.com/grigoriymikhalkin/sqlboiler-paginate/v3
 
 go 1.14
 
