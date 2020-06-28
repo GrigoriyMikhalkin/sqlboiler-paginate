@@ -55,21 +55,31 @@ Expected types:
 Note: all previous page values converted to strings.
 
 ### Offset Pagination
-If `Offset` field in `PaginatorParams`> 0, [offset pagination](https://developer.box.com/guides/api-calls/pagination/offset-based/) is used.
+If previous values for order columns unset, [offset pagination](https://developer.box.com/guides/api-calls/pagination/offset-based/) is used.
+Example request:
+```http request
+GET /users?limit=5&offset=5
+```
 
 ### Keyset pagination
-Otherwise, `PaginationQueryMods` uses [keyset pagination](https://use-the-index-luke.com/no-offset).
+If previous values for order columns are set, `PaginationQueryMods` uses [keyset pagination](https://use-the-index-luke.com/no-offset).
+Example request:
+```http request
+GET /users?limit=5&order_by=id-asc,name-desc&prev_page_values={%22id%22:5}
+```
+
 
 ### Examples
 ```go
 import (
   ...
+  "github.com/grigoriymikhalkin/sqlboiler-paginate/common"
   "github.com/grigoriymikhalkin/sqlboiler-paginate/v4"
 
   "your-project/sqlboiler-models"
 )
 func paginate(query) []*models.User {
-  parser := paginate.NewDefaultPaginatorParamsParser()
+  parser := common.NewDefaultPaginatorParamsParser()
   params, err := parser.ParseQuery(query)
   if err != nil {
     panic(err)
@@ -80,7 +90,9 @@ func paginate(query) []*models.User {
 }
 ```
 
-[simple example]()
+[net/http example](https://github.com/GrigoriyMikhalkin/sqlboiler-paginate/blob/master/examples/simple_net_example.go)
+
+[gofiber example]()
 
 ## License
 [MIT](https://github.com/GrigoriyMikhalkin/sqlboiler-paginate/blob/master/LICENSE)
