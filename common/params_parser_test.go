@@ -1,7 +1,7 @@
-package paginate
+package common
 
 import (
-  "testing"
+	"testing"
 )
 
 func TestParseQuery(t * testing.T) {
@@ -17,7 +17,13 @@ func TestParseQuery(t * testing.T) {
   }
 
   query = "/endpoint?limit=5&offset=5"
-  // TODO offset test
+  params, err = parser.ParseQuery(query)
+  if err != nil {
+    t.Errorf("Params parsing failed: %v", err)
+  }
+  if params.Offset != 5 {
+    t.Errorf("Offset should be 5, instead go %d", params.Offset)
+  }
 
   query = `/users?limit=5&order_by=id&prev_page_values={"id":5}`
   params, err = parser.ParseQuery(query)

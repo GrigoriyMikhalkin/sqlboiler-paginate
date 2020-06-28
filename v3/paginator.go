@@ -1,27 +1,26 @@
 package paginate
 
 import (
-  "github.com/grigoriymikhalkin/sqlboiler-paginate"
-
+  "github.com/grigoriymikhalkin/sqlboiler-paginate/common"
   "github.com/volatiletech/sqlboiler/queries/qm"
 )
 
-func PaginationQueryMods(params paginate.PaginatorParams) []qm.QueryMod {
-  if params.Offset > 0 {
+func PaginationQueryMods(params common.PaginatorParams) []qm.QueryMod {
+  if params.Offset > 0 && params.OrderBy == nil {
     return offsetPagination(params)
   }
 
   return keysetPagination(params)
 }
 
-func offsetPagination(params paginate.PaginatorParams) []qm.QueryMod {
+func offsetPagination(params common.PaginatorParams) []qm.QueryMod {
   return []qm.QueryMod{
     qm.Offset(params.Offset),
     qm.Limit(params.Limit),
   }
 }
 
-func keysetPagination(params paginate.PaginatorParams) []qm.QueryMod {
+func keysetPagination(params common.PaginatorParams) []qm.QueryMod {
   var mods []qm.QueryMod
 
   orderByQuery := ""

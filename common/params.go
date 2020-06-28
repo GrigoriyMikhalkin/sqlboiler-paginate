@@ -1,4 +1,4 @@
-package paginate
+package common
 
 type OrderByParam struct {
   Order string

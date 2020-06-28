@@ -1,7 +1,7 @@
-package paginate
+package common
 
 import (
-  "fmt"
+	"fmt"
   "encoding/json"
   "net/url"
   "strings"
@@ -86,12 +86,9 @@ func (p *defaultPaginatorParamsParser) ParseQuery(query string) (params Paginato
   }
 
   // parsing order by params
-  var orderBy OrderByParams
-  if offset < 1 {
-    orderBy, err = p.OrderByParse(values, p.OrderByParam, p.PrevPageValuesParam)
-    if err != nil {
-      return
-    }
+  orderBy, err := p.OrderByParse(values, p.OrderByParam, p.PrevPageValuesParam)
+  if err != nil {
+    return
   }
 
   return PaginatorParams{
@@ -105,13 +102,15 @@ func DefaultOrderByParse(queryParams QueryParams, orderByParam, prevPageValuePar
   orderByFields := []string{}
   if len(queryParams[orderByParam]) > 0 {
     orderByFields = strings.Split(queryParams[orderByParam][0], ",")
+  } else {
+    return
   }
 
   prevPageValues := map[string]interface{}{}
   if len(queryParams[prevPageValueParam]) > 0 {
-    err := json.Unmarshal([]byte(queryParams[prevPageValueParam][0]), &prevPageValues)
+    err = json.Unmarshal([]byte(queryParams[prevPageValueParam][0]), &prevPageValues)
     if err != nil {
-      return nil, err
+      return
     }
   }
 
