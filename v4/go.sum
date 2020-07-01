@@ -49,6 +49,8 @@ github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1/go.mod h1:wJfORR
 github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
 github.com/grigoriymikhalkin/sqlboiler-paginate/common v1.0.0-alpha.1 h1:zZ6JxWevU04JTEB/OZCmzdwdRcl0EKlqAiuk98O98BQ=
 github.com/grigoriymikhalkin/sqlboiler-paginate/common v1.0.0-alpha.1/go.mod h1:wjRd/jdNJab4Q+5oKAbU7jKA9ZvzwpU19K8J4d/7eDY=
+github.com/grigoriymikhalkin/sqlboiler-paginate/common v1.0.0-alpha.2 h1:xrIWEcdgH6VKZ/SL7f9IUDvt8TzrRnyK6Xd5LSJ3fgs=
+github.com/grigoriymikhalkin/sqlboiler-paginate/common v1.0.0-alpha.2/go.mod h1:RDJfLa1Xj2/EJepI1nrCOPZ4TWc0j7gjYYhcU2eDBAs=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0/go.mod h1:FiyG127CGDf3tlThmgyCl78X/SZQqEOJBCDaAfeWzPs=
 github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0/go.mod h1:8NvIoxWQoOIhqOTXgfV/d3M/q6VIi02HzZEHgUlZvzk=
 github.com/grpc-ecosystem/grpc-gateway v1.9.0/go.mod h1:vNeuVxBJEsws4ogUvrchl83t/GYV9WGTSLVdBhOQFDY=
